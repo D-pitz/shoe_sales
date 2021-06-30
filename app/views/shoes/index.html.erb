@@ -1,0 +1,41 @@
+<h3>Hi <%= current_user.first_name %></h3>
+<a href="/users/<%= current_user.id %>">Dashboard</a>
+<a data-method = "delete" href="/users/<%= current_user.id %>">Logout</a>
+<% if flash[:alert] %>
+    <div class="alert alert-warning" role="alert">
+        <p><%= flash[:alert] %></p>
+    </div>
+<% end %>
+<table class="table table-striped">
+    <h4>All Products</h4>
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Seller</td>
+            <td>Date Posted</td>
+            <td>Amount</td>
+            <td>Action</td>
+        </tr>
+    </thead scope="row">
+    <tbody>
+        <tr <% @shoes.each do |shoe|%>>
+            <td><%= shoe.name %></td> 
+            <td><%= shoe.user.first_name %> <%= shoe.user.last_name %></td>
+            <td><%= shoe.date %></td> 
+            <td>$<%= shoe.amount %></td> 
+            <td>
+                <form action="/trans" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="tran[buyer]" value="<%= current_user.first_name %>">
+                    <input type="hidden" name="tran[seller]" value="<%= shoe.user.first_name %>">
+                    <input type="hidden" name="tran[date]" value="<%= current_date %>">
+                    <input type="hidden" name="tran[amount]" value="<%= shoe.amount %>">
+                    <input type="hidden" name="tran[user_id]" value="<%= shoe.user.id %>">
+                    <input type="hidden" name="tran[shoe_id]" value="<%= shoe.id %>">
+                    <input type="hidden" name="tran[name]" value="<%= shoe.name %>">
+                <button type="submit" class="btn btn-primary">Buy</button>
+                </form>
+            </td>
+        </tr <% end %>>
+    </tbody>
+</table>

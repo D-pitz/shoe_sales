@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer: MyString
+  seller: MyString
+  data: 2021-06-29
+  user_id: 
+  shoe_id: 
+
+two:
+  buyer: MyString
+  seller: MyString
+  data: 2021-06-29
+  user_id: 
+  shoe_id: 

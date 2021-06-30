@@ -1,0 +1,80 @@
+<header id="show">
+    <div>
+        <h1>Hi, <%= current_user.first_name%></h1>
+    </div>
+    <div>  
+        <a href="/shoes">All Products</a>
+        <a data-method = "delete" href="/users/<%= current_user.id %>">Logout</a>
+    </div>
+</header>
+<h4>Sell Product</h4>
+<form action="/shoes" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <p>Name: <input type="text" name="shoe[name]" id=""></p>
+    <p>Amount: <input type="text" name="shoe[amount]"></p>
+    <input type="hidden" name="shoe[date]" value="<%= current_date %>">
+    <input type="hidden" name="shoe[user_id]" value="<%= current_user.id %>">
+    <br>
+    <button type="submit" class="btn btn-primary">Sell</button>
+</form>
+<table class="table table-striped">
+    <h4>Your products that are not yet sold</h4>
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Date Posted</td>
+            <td>Amount</td>
+            <td>Action</td>
+        </tr>
+    </thead scope="row">
+    <tbody>
+        <tr <% @shoes.each do |shoe|%>>
+            <td><%= shoe.name %></td> 
+            <td><%= shoe.date %></td> 
+            <td>$<%= shoe.amount %></td> 
+            <td><a data-method="delete" href="/shoes/<%= shoe.id %>">Remove</a></td>
+        </tr <% end %>>
+    </tbody>
+</table>
+<br>
+<table class="table table-striped">
+    <h4>Sales</h4>
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Date Sold</td>
+            <td>Buyer</td>
+            <td>Amount</td>
+        </tr>
+    </thead scope="row">
+    <tbody>
+        <tr <% @sales.each do |sale|%>>
+            <td><%= sale.shoe.name %></td> 
+            <td><%= sale.date %></td> 
+            <td><%= sale.buyer %></td> 
+            <td>$<%= sale.amount %></td>
+        </tr <% end %>>
+    </tbody>
+</table>
+<p> Total Sales: <%= @total_sales %></p>
+<br>
+<table class="table table-striped">
+    <h4>Purchases</h4>
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Date Bought</td>
+            <td>Seller</td>
+            <td>Amount</td>
+        </tr>
+    </thead scope="row">
+    <tbody>
+        <tr <% @purchases.each do |purchase|%>>
+            <td><%= purchase.name %></td> 
+            <td><%= purchase.date %></td> 
+            <td><%= purchase.seller %></td> 
+            <td>$<%= purchase.amount %></td>
+        </tr <% end %>>
+    </tbody>
+</table>
+<p> Total Purchased: <%= @total_purchased %></p>
